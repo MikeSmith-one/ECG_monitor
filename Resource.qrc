@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resource/qss/dark_medical.css</file>
+    </qresource>
+</RCC>

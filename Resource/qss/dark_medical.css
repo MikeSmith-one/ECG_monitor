@@ -1,0 +1,187 @@
+/* =========================================================
+   全局与根窗口主背景 (黑灰基调)
+   ========================================================= */
+QWidget#MainWindowClass {
+	background-color: #0A0B0E;
+	color: #E0E3EA;
+	font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+/* 全局清除 QFrame 默认 3D 浅色边框 */
+QFrame {
+	border: none;
+	background-color: transparent;
+}
+
+/* =========================================================
+   顶部状态栏 (TopBar)
+   ========================================================= */
+QFrame#topBar {
+	background-color: #12141C;
+	border: 1px solid #202430;
+	border-radius: 4px;
+}
+
+	QFrame#topBar QLabel {
+		color: #C5C9D6;
+		font-size: 11pt;
+		font-weight: bold;
+	}
+
+	/* 顶部竖向分割线 */
+	QFrame#topBar QFrame[frameShape="5"] {
+		background-color: #232736;
+		border: none;
+		width: 1px;
+	}
+
+/* =========================================================
+   中间波形绘图区 (QCustomPlot)
+   ========================================================= */
+QCustomPlot#plotECG, QCustomPlot#plotSpO2, QCustomPlot#plotRESP {
+	background-color: #0F1117;
+	border: 1px solid #1E222E;
+	border-radius: 6px;
+}
+
+/* 波形区左上角标题文字 */
+QLabel#label {
+	color: #00FF7F;
+	font-size: 12pt;
+	font-weight: bold;
+}
+/* 心电 - 绿色 */
+QLabel#label_2 {
+	color: #00E5FF;
+	font-size: 12pt;
+	font-weight: bold;
+}
+/* 血氧 - 天蓝 */
+QLabel#label_3 {
+	color: #FFD700;
+	font-size: 12pt;
+	font-weight: bold;
+}
+/* 呼吸 - 金黄 */
+
+/* =========================================================
+   右侧体征看板卡片 (Cards)
+   ========================================================= */
+/* 心率卡片 (ECG / HR) */
+QFrame#cardHR {
+	background-color: #0E1A14;
+	border: 1px solid #1A3828;
+	border-radius: 6px;
+}
+
+QLabel#HR {
+	color: #00FF7F;
+	font-size: 13pt;
+	font-weight: bold;
+}
+
+QLabel#HR_Num {
+	color: #00FF7F;
+	font-size: 26pt;
+	font-weight: bold;
+}
+
+QLabel#HR_top, QLabel#HR_buttom {
+	color: #80CFA5;
+	font-size: 10pt;
+}
+
+/* 血氧卡片 (SpO2) */
+QFrame#cardSpO2 {
+	background-color: #0C1824;
+	border: 1px solid #16324A;
+	border-radius: 6px;
+}
+
+QLabel#SpO2 {
+	color: #00E5FF;
+	font-size: 13pt;
+	font-weight: bold;
+}
+
+QLabel#SpO2_Num {
+	color: #00E5FF;
+	font-size: 26pt;
+	font-weight: bold;
+}
+
+QLabel#SpO2_top, QLabel#SpO2_buttom {
+	color: #80F2FF;
+	font-size: 10pt;
+}
+
+/* 呼吸率卡片 (RESP) -> UI中对应的对象名为 frame_6 */
+QFrame#frame_6 {
+	background-color: #1A180E;
+	border: 1px solid #38321A;
+	border-radius: 6px;
+}
+
+QLabel#RESP {
+	color: #FFD700;
+	font-size: 13pt;
+	font-weight: bold;
+}
+
+QLabel#RESP_Num {
+	color: #FFD700;
+	font-size: 26pt;
+	font-weight: bold;
+}
+
+QLabel#RESP_top, QLabel#RESP_buttom {
+	color: #FFEBA0;
+	font-size: 10pt;
+}
+
+/* =========================================================
+   底部测量数据区 (MeasureBar)
+   ========================================================= */
+QFrame#frame_3, QFrame#frame_4 {
+	background-color: #12141C;
+	border: 1px solid #202430;
+	border-radius: 4px;
+}
+
+QLabel#lblNIBP, QLabel#lblTEMP, QLabel#lblAlarmStatus {
+	color: #E0E3EA;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+/* =========================================================
+   底部控制栏与按钮 (ControlBar)
+   ========================================================= */
+QFrame#frame_2 {
+	background-color: #0A0B0E;
+	border-top: 1px solid #1E222E;
+}
+
+QPushButton#btnMuteAlarm, QPushButton#btnFreeze, QPushButton#btnBloodPress, QPushButton#more {
+	background-color: #1A1D27;
+	color: #E0E3EA;
+	border: 1px solid #2E3344;
+	border-radius: 4px;
+	padding: 4px 15px;
+	font-size: 10.5pt;
+	font-weight: bold;
+}
+
+	/* 按钮悬停与按压态 */
+	QPushButton#btnMuteAlarm:hover, QPushButton#btnFreeze:hover,
+	QPushButton#btnBloodPress:hover, QPushButton#more:hover {
+		background-color: #282C3D;
+		border-color: #00E5FF;
+		color: #FFFFFF;
+	}
+
+	QPushButton#btnMuteAlarm:pressed, QPushButton#btnFreeze:pressed,
+	QPushButton#btnBloodPress:pressed, QPushButton#more:pressed {
+		background-color: #12141D;
+		border-color: #00B0FF;
+	}
