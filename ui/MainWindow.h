@@ -1,7 +1,10 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
+#include <QTimer>
+#include <QDateTime>
 #include "ui_MainWindow.h"
+#include "./ConfigManager/ConfigManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; };
@@ -17,6 +20,9 @@ public:
 
 private:
     void initCharts();
+
+private slots:
+    void on_btnMore_clicked();
 
 private:
     Ui::MainWindowClass *ui;

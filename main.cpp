@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include <QtWidgets/QApplication>
-//#include <QApplication>
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
@@ -13,7 +12,7 @@ int main(int argc, char *argv[])
     QFile qssFile(":/Resource/qss/dark_medical.css");
     if (qssFile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream stream(&qssFile);
-        app.setStyleSheet(stream.readAll());
+        qApp->setStyleSheet(stream.readAll());
         qssFile.close();
     }
     else {

@@ -44,7 +44,7 @@
          </font>
         </property>
         <property name="text">
-         <string>床号：01</string>
+         <string>床号：1</string>
         </property>
        </widget>
       </item>
@@ -121,7 +121,7 @@
            </font>
           </property>
           <property name="text">
-           <string>状态：🟢实时推流</string>
+           <string>状态：🟩实时推流</string>
           </property>
          </widget>
         </item>
@@ -147,7 +147,7 @@
          </font>
         </property>
         <property name="text">
-         <string>时间：1946-2-14 00:00:00</string>
+         <string>时间：1946-2-14 00:00</string>
         </property>
        </widget>
       </item>
@@ -293,12 +293,12 @@
               </font>
              </property>
              <property name="text">
-              <string>75 bpm</string>
+              <string>-- bpm</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="HR_top">
+            <widget class="QLabel" name="HR_upper">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -306,12 +306,12 @@
               </font>
              </property>
              <property name="text">
-              <string>上限: 120</string>
+              <string>上限: --</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="HR_buttom">
+            <widget class="QLabel" name="HR_lower">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -319,7 +319,7 @@
               </font>
              </property>
              <property name="text">
-              <string>下限: 50</string>
+              <string>下限: --</string>
              </property>
             </widget>
            </item>
@@ -357,12 +357,12 @@
               </font>
              </property>
              <property name="text">
-              <string>98 %</string>
+              <string>-- %</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="SpO2_top">
+            <widget class="QLabel" name="SpO2_upper">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -370,12 +370,12 @@
               </font>
              </property>
              <property name="text">
-              <string>上限: 100</string>
+              <string>上限: --</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="SpO2_buttom">
+            <widget class="QLabel" name="SpO2_lower">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -383,7 +383,7 @@
               </font>
              </property>
              <property name="text">
-              <string>下限: 90</string>
+              <string>下限: --</string>
              </property>
             </widget>
            </item>
@@ -391,7 +391,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_6">
+         <widget class="QFrame" name="cardRESP">
           <property name="frameShape">
            <enum>QFrame::Shape::StyledPanel</enum>
           </property>
@@ -421,12 +421,12 @@
               </font>
              </property>
              <property name="text">
-              <string>16 rpm</string>
+              <string>-- rpm</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="RESP_top">
+            <widget class="QLabel" name="RESP_upper">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -434,12 +434,12 @@
               </font>
              </property>
              <property name="text">
-              <string>上限: 30</string>
+              <string>上限: --</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="RESP_buttom">
+            <widget class="QLabel" name="RESP_lower">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -447,7 +447,7 @@
               </font>
              </property>
              <property name="text">
-              <string>下限: 10</string>
+              <string>下限: --</string>
              </property>
             </widget>
            </item>
@@ -498,7 +498,7 @@
             </font>
            </property>
            <property name="text">
-            <string>[NIBP 血压: 120/80 mmHg]</string>
+            <string>[NIBP 血压: -- / -- mmHg]</string>
            </property>
           </widget>
          </item>
@@ -511,7 +511,7 @@
             </font>
            </property>
            <property name="text">
-            <string>[TEMP 体温: 36.5 ℃]</string>
+            <string>[TEMP 体温: -- ℃]</string>
            </property>
           </widget>
          </item>
@@ -536,7 +536,7 @@
             </font>
            </property>
            <property name="text">
-            <string>阈值报警: 🟢</string>
+            <string>阈值报警: 🟩</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -626,7 +626,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="more">
+       <widget class="QPushButton" name="btnMore">
         <property name="minimumSize">
          <size>
           <width>150</width>

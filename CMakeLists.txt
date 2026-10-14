@@ -16,6 +16,10 @@ find_package(Qt${QT_VERSION_MAJOR}
         Gui
         Widgets
         PrintSupport
+        Network
+        Sql
+        SerialBus
+        SerialPort
 )
 qt_standard_project_setup()
 
@@ -24,12 +28,32 @@ set(PROJECT_SOURCES
     ECG_monitor.rc
     Resource.qrc
 
+    #第三方插件
     3rdparty/qcustomplot/qcustomplot.h
     3rdparty/qcustomplot/qcustomplot.cpp
-
+    
+    #ui界面
+    #主界面
     ui/MainWindow.ui
     ui/MainWindow.h
     ui/MainWindow.cpp
+    #设置对话框
+    ui/SettingDialog.ui
+    ui/SettingDialog.h
+    ui/SettingDialog.cpp
+
+    #网络
+    Network/StationData.h
+    Network/NetworkManager.h
+    Network/NetworkManager.cpp
+
+    #数据库
+    Database/DatabaseManager.h
+    Database/DatabaseManager.cpp
+
+    #配置管理器（全局单例）
+    ConfigManager/ConfigManager.h
+    ConfigManager/ConfigManager.cpp
 )
 
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
@@ -44,6 +68,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/ui
     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qcustomplot
+    ${CMAKE_CURRENT_SOURCE_DIR}/Network
+    ${CMAKE_CURRENT_SOURCE_DIR}/Database
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -52,5 +78,9 @@ target_link_libraries(${PROJECT_NAME}
         Qt::Gui
         Qt::Widgets
         Qt::PrintSupport
+        Qt::Network
+        Qt::Sql
+        Qt::SerialBus
+        Qt::SerialPort
 )
 
