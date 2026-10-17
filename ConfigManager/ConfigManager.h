@@ -29,7 +29,7 @@ struct Person {
 //完整配置
 struct StationConfig {
 	QString PortName;
-	int BaudRate;
+	int BaudRate = 115200;
 	Person person;
 	QMap<QString, AlarmLimit> alarmLimits;
 };

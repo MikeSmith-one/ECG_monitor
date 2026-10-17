@@ -73,7 +73,8 @@ void SettingDialog::loadConfigToUI()
 
 void SettingDialog::onSaveClicked()
 {
-	StationConfig newConfig;
+	StationConfig newConfig = ConfigManager::instance()->getCongfig();
+
 
 	//保存配置信息
 	newConfig.person.name = ui->personName->text();

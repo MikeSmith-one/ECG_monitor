@@ -44,6 +44,7 @@ set(PROJECT_SOURCES
 
     #网络
     Network/StationData.h
+    Network/ThreadSafeQueue.h
     Network/NetworkManager.h
     Network/NetworkManager.cpp
 
