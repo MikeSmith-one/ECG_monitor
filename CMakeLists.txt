@@ -20,6 +20,7 @@ find_package(Qt${QT_VERSION_MAJOR}
         Sql
         SerialBus
         SerialPort
+        Multimedia
 )
 qt_standard_project_setup()
 
@@ -52,6 +53,10 @@ set(PROJECT_SOURCES
     Database/DatabaseManager.h
     Database/DatabaseManager.cpp
 
+    #多媒体
+    MultiMedia/AudioManager/AudioManager.h
+    MultiMedia/AudioManager/AudioManager.cpp
+
     #配置管理器（全局单例）
     ConfigManager/ConfigManager.h
     ConfigManager/ConfigManager.cpp
@@ -83,5 +88,6 @@ target_link_libraries(${PROJECT_NAME}
         Qt::Sql
         Qt::SerialBus
         Qt::SerialPort
+        Qt::Multimedia
 )
 

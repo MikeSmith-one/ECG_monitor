@@ -32,7 +32,7 @@ void NetworkManager::startConnection()
 	m_serialPort->setDataBits(QSerialPort::Data8);
 	m_serialPort->setParity(QSerialPort::NoParity);
 	m_serialPort->setStopBits(QSerialPort::OneStop);
-	m_serialPort->setFlowControl(QSerialPort::NoFlowControl);//？？？？？？不懂这是做什么的
+	m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
 
 	if (m_serialPort->open(QIODevice::ReadWrite)) {
 		qDebug() << "[NetworkManager] 串口打开成功:" << config.PortName << "@" << config.BaudRate;
@@ -136,12 +136,12 @@ void NetworkManager::prasePayload(quint8 type, const QByteArray& payload)
 		chartsQueue.enqueue(data);
 
 		//打印测试
-#ifdef QT_DEBUG
-		qDebug() << "[波形包] ECG:" << data.ECG_Data
-			<< " SpO2:" << data.SpO2_Data
-			<< " RESP:" << data.RESP_Data
-			<< " Flag: 0x" << QString::number(data.Status_Flag, 16).toUpper();
-#endif
+//#ifdef QT_DEBUG
+//		qDebug() << "[波形包] ECG:" << data.ECG_Data
+//			<< " SpO2:" << data.SpO2_Data
+//			<< " RESP:" << data.RESP_Data
+//			<< " Flag: 0x" << QString::number(data.Status_Flag, 16).toUpper();
+//#endif
 	}
 	else if (type == 0x02 && payload.size() == 7) {
 		TablesData data;
@@ -165,16 +165,16 @@ void NetworkManager::sendCommand(quint8 cmdId)
 	if (!m_serialPort || !m_serialPort->isOpen()) return;
 
 	QByteArray packet;
-	packet.append(static_cast<char>(0xAA)); // 帧头1
-	packet.append(static_cast<char>(0x55)); // 帧头2
-	packet.append(static_cast<char>(0x03)); // 类型 Type = 0x03 (控制指令)
-	packet.append(static_cast<char>(0x01)); // 长度 Length = 1
-	packet.append(static_cast<char>(cmdId)); // 负载 Payload
+	packet.append(static_cast<char>(0xAA));  //帧头1
+	packet.append(static_cast<char>(0x55));  //帧头2
+	packet.append(static_cast<char>(0x03));  //类型 Type = 0x03 (控制指令)
+	packet.append(static_cast<char>(0x01));  //长度 Length = 1
+	packet.append(static_cast<char>(cmdId)); //负载 Payload
 
 	//计算校验和
 	quint8 checksum = 0x03 + 0x01 + cmdId;
 	packet.append(static_cast<char>(checksum));
 
 	m_serialPort->write(packet);
-	qDebug() << "[NetworkManager] 已向下位机发送指令:"; //<< QString::number(cmdId, 16).toUpper();
+	qDebug() << "[NetworkManager] 已向下位机发送指令";
 }

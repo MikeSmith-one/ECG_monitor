@@ -3,5 +3,8 @@
         <file>Resource/qss/dark_medical.css</file>
         <file>Resource/icon/down_arrow.svg</file>
         <file>Resource/icon/up_arrow.svg</file>
+        <file>Resource/audios/beep.wav</file>
+        <file>Resource/audios/flatline.wav</file>
+        <file>Resource/audios/warning.wav</file>
     </qresource>
 </RCC>
