@@ -68,6 +68,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_muteTimer, &QTimer::timeout, this, &MainWindow::onMuteTimeout);
 
     // ============================================
+    // 初始化通信看门狗定时器（2000ms 超时）
+    // ============================================
+    m_watchdogTimer = new QTimer(this);
+    m_watchdogTimer->setSingleShot(true);//单词定时器
+    connect(m_watchdogTimer, &QTimer::timeout, this, &MainWindow::onCommWatchdogTimeout);
+    m_watchdogTimer->start(2000);//开机默认启动，2秒内无数据则变红
+
+    // ============================================
     // 独立音频子线程
     // ============================================
     m_audioThread = new QThread(this);
@@ -318,6 +326,16 @@ void MainWindow::onUiTimerTimeout()
     // 批量绘图与冻结拦截
     // -----------------------------
     if (hasWaveData) {
+        //成功拿到了波形数据，重置 2 秒倒计时
+        m_watchdogTimer->start(2000);
+        m_isCommTimeout = false;
+
+        //如果当前没有被冻结，确保顶部现时为正常的绿色实时推流
+        if (!m_isFrozen) {
+            ui->labelStatus->setText("状态：🟩 实时推流");
+            ui->labelStatus->setStyleSheet("");//恢复默认 QSS 浅色字体
+        }
+
         //批量添加数据到 Gtaph
         ui->plotECG->graph(0)->addData(keys, ecgValues);
         ui->plotSpO2->graph(0)->addData(keys, spo2Values);
@@ -369,10 +387,25 @@ void MainWindow::on_btnFreeze_clicked()
     if (m_isFrozen) {
         ui->btnFreeze->setText("解除冻结");
         ui->btnFreeze->setStyleSheet("background-color: #8B0000; color: white;");//变成暗红色提示
+
+        //顶部状态栏联动提示已冻结
+        ui->labelStatus->setText("状态：⏸️ 波形已冻结");
+        ui->labelStatus->setStyleSheet("color: #00E5FF; font-weight: bold;");
     }
     else {
         ui->btnFreeze->setText("冻结波形");
         ui->btnFreeze->setStyleSheet("");//恢复默认 QSS
+
+        //接触冻结后，根据通信是否正常恢复对应状态
+        if (m_isCommTimeout) {
+            ui->labelStatus->setText("状态：🟥 通信中断 / 离线");
+            ui->labelStatus->setStyleSheet("color: #FF4D4F; font-weight: bold;");
+        }
+        else
+        {
+            ui->labelStatus->setText("状态：🟩 实时推流");
+            ui->labelStatus->setStyleSheet("");
+        }
     }
 }
 
@@ -418,10 +451,10 @@ void MainWindow::onBlinkTimerTimeout()
     }
     else {
         //熄灭/恢复阶段：恢复各自在 QSS 里的默认主题色
-        if (m_alarmHR)   ui->HR_Num->setStyleSheet("color: #00FF7F;");   // 恢复心率绿
-        if (m_alarmSpO2) ui->SpO2_Num->setStyleSheet("color: #00E5FF;"); // 恢复血氧蓝
-        if (m_alarmRESP) ui->RESP_Num->setStyleSheet("color: #FFD700;"); // 恢复呼吸黄
-        if (m_alarmTEMP) ui->lblTEMP->setStyleSheet("");                 // 恢复体温默认白
+        if (m_alarmHR)   ui->HR_Num->setStyleSheet("color: #00FF7F;");   //恢复心率绿
+        if (m_alarmSpO2) ui->SpO2_Num->setStyleSheet("color: #00E5FF;"); //恢复血氧蓝
+        if (m_alarmRESP) ui->RESP_Num->setStyleSheet("color: #FFD700;"); //恢复呼吸黄
+        if (m_alarmTEMP) ui->lblTEMP->setStyleSheet("");                 //恢复体温默认白
 
         ui->lblAlarmStatus->setText("阈值报警: 🟩");
     }
@@ -432,4 +465,15 @@ void MainWindow::onMuteTimeout()
     m_isMuted = false;
     ui->btnMuteAlarm->setText("报警消音");
     ui->btnMuteAlarm->setStyleSheet("");
+}
+
+void MainWindow::onCommWatchdogTimeout()
+{
+    m_isCommTimeout = true;
+
+    //如果没有被冻结，才展示断开警告
+    if (!m_isFrozen) {
+        ui->labelStatus->setText("状态：🟥 通信中断 / 离线");
+        ui->labelStatus->setStyleSheet("color: #FF4D4F; font-weight: bold;");
+    }
 }

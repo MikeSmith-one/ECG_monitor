@@ -27,11 +27,10 @@ private:
 
 signals:
     void sendNetCommand(quint8 cmdId);//用于跨线程通知 NetworkManager 发送指令
-    //void signalAlarmTrigged(QString alarmType, int value);//触发报警信号
-    void signalAlarmTriggered(bool currentIsFlatline, int alarmValue);
+    void signalAlarmTriggered(QString alarmType, int value);
 
 private slots:
-    void on_btnMore_clicked();
+    void on_btnMore_clicked();//设置按钮点击响应槽函数
     void on_btnBloodPress_clicked();//血压按钮点击槽函数
     void onUiTimerTimeout();//提取队列数据的定时器响应槽函数
     void onNibpClearTimeout();//5秒清空血压显示的定时器响应槽函数
@@ -40,6 +39,8 @@ private slots:
     void on_btnMuteAlarm_clicked();//消音按钮点击槽函数
     void onBlinkTimerTimeout();//闪烁定时器响应槽函数
     void onMuteTimeout();//消音结束定时器响应槽函数
+
+    void onCommWatchdogTimeout();//通信看门狗超时响应槽函数
 
 private:
     double m_runningTime = 0.0;//记录波形运行的绝对时间 (X轴坐标）
@@ -55,6 +56,9 @@ private:
     bool m_alarmSpO2 = false;
     bool m_alarmRESP = false;
     bool m_alarmTEMP = false;
+
+    bool m_isCommTimeout = false;     //记录当前是否处于通信中断状态
+    QTimer* m_watchdogTimer = nullptr;//通信看门狗定时器（2秒无数据为断开）
 
     QTimer* m_blinkTimer = nullptr;  //报警闪烁定时器
     QTimer* m_muteTimer = nullptr;   //120秒消音定时器
