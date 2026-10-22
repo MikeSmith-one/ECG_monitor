@@ -626,6 +626,24 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btnRecording">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>记录</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnMore">
         <property name="minimumSize">
          <size>

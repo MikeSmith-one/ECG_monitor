@@ -9,6 +9,7 @@
 #include "./ConfigManager/ConfigManager.h"
 #include "./Network/NetworkManager.h"
 #include "./MultiMedia/AudioManager/AudioManager.h"
+#include "./StorageManager/StorageManager.h" 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; };
@@ -28,9 +29,11 @@ private:
 signals:
     void sendNetCommand(quint8 cmdId);//用于跨线程通知 NetworkManager 发送指令
     void signalAlarmTriggered(QString alarmType, int value);
+    void signalSaveVitals(TablesData data);//通知存储线程保存数据
 
 private slots:
     void on_btnMore_clicked();//设置按钮点击响应槽函数
+    void on_btnRecording_clicked();//记录按钮点击响应槽函数
     void on_btnBloodPress_clicked();//血压按钮点击槽函数
     void onUiTimerTimeout();//提取队列数据的定时器响应槽函数
     void onNibpClearTimeout();//5秒清空血压显示的定时器响应槽函数
@@ -72,5 +75,9 @@ private:
     QThread* m_netThread = nullptr;
     NetworkManager* m_netManager = nullptr;
     Ui::MainWindowClass *ui;
+
+    //存储线程
+    QThread* m_storageThread = nullptr;
+    StorageManager* m_storageManager = nullptr;
 };
 

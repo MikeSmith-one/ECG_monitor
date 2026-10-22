@@ -42,6 +42,10 @@ set(PROJECT_SOURCES
     ui/SettingDialog.ui
     ui/SettingDialog.h
     ui/SettingDialog.cpp
+    #记录对话框
+    ui/RecordingDialog.ui
+    ui/RecordingDialog.h
+    ui/RecordingDialog.cpp
 
     #网络
     Network/StationData.h
@@ -49,9 +53,9 @@ set(PROJECT_SOURCES
     Network/NetworkManager.h
     Network/NetworkManager.cpp
 
-    #数据库
-    Database/DatabaseManager.h
-    Database/DatabaseManager.cpp
+    #数据库与日志
+    StorageManager/StorageManager.h
+    StorageManager/StorageManager.cpp
 
     #多媒体
     MultiMedia/AudioManager/AudioManager.h

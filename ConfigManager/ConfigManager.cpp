@@ -21,11 +21,17 @@ QString ConfigManager::getDatabasePath() const
 	return m_DatabasePath;
 }
 
+QString ConfigManager::getLogPath() const
+{
+	QReadLocker locker(&m_lock);
+	return m_logPath;
+}
+
 void ConfigManager::loadConfigFromIni()
 {
 	QWriteLocker locker(&m_lock);
 
-	//确保 Config 和 Database 目录存在
+	//确保 Config Database和logs目录存在
 	QFileInfo iniInfo(m_iniPath);
 	QDir dir = iniInfo.absoluteDir();
 	if (!dir.exists()) {
@@ -35,6 +41,10 @@ void ConfigManager::loadConfigFromIni()
 	if (!dbDir.exists()) {
 		dbDir.mkpath(".");
 	}
+	QDir logDir(m_logPath);
+	if (!logDir.exists()) {
+		logDir.mkpath(".");
+	}
 
 	//读取 ini 文件
 	QSettings settings(m_iniPath, QSettings::IniFormat);
@@ -42,6 +52,18 @@ void ConfigManager::loadConfigFromIni()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 	settings.setIniCodec("UTF-8");
 #endif
+
+	// ===============================
+	// 解析 [Storage] 节点
+	// ===============================
+	settings.beginGroup("Storage");
+	m_config.storage.logPath = settings.value("LogPath", QCoreApplication::applicationDirPath() + "/logs/").toString();
+	m_config.storage.dbPath = settings.value("DbPath", QCoreApplication::applicationDirPath() + "/database/").toString();
+
+	//立即回写，确保文件中有这些字段
+	settings.setValue("LogPath", m_config.storage.logPath);
+	settings.setValue("DbPath", m_config.storage.dbPath);
+	settings.endGroup();
 
 	// ===============================
 	// 解析 [Network] 节点
@@ -63,6 +85,7 @@ void ConfigManager::loadConfigFromIni()
 	m_config.person.name = settings.value("Name", "张三").toString();
 	m_config.person.gender = settings.value("Gender", "男").toString();
 
+	//立即回写，确保文件中有这些字段
 	settings.setValue("BendNo", m_config.person.benNo);
 	settings.setValue("Name", m_config.person.name);
 	settings.setValue("Gender", m_config.person.gender);

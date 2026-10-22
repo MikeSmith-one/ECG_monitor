@@ -20,10 +20,17 @@ struct AlarmLimit {
 	double upperLimit = 0;//报警上限
 };
 
+//病人信息结构体
 struct Person {
 	int benNo = 0;
 	QString name;
 	QString gender;
+};
+
+//日志和生理信息存储路径结构体
+struct StoragePath {
+	QString logPath;       //日志存放目录
+	QString dbPath;        //数据库存放目录
 };
 
 //完整配置
@@ -32,6 +39,7 @@ struct StationConfig {
 	int BaudRate = 115200;
 	Person person;
 	QMap<QString, AlarmLimit> alarmLimits;
+	StoragePath storage;
 };
 
 // ========================================
@@ -46,6 +54,7 @@ public:
 
 	//获取文件路径
 	QString getIniPath() const;
+	QString getLogPath() const;
 	QString getDatabasePath() const;
 
 	//加载配置
@@ -65,6 +74,7 @@ private:
 
 	QString m_iniPath = QCoreApplication::applicationDirPath() + "/config/config.ini";
 	QString m_DatabasePath = QCoreApplication::applicationDirPath() + "/database/";
+	QString m_logPath = QCoreApplication::applicationDirPath() + "/logs/";
 
 	StationConfig m_config;
 	mutable QReadWriteLock m_lock;

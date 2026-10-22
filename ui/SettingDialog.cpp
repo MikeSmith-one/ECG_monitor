@@ -103,6 +103,7 @@ void SettingDialog::onSaveClicked()
 
 	//写入配置文件
 	ConfigManager::instance()->saveConfig(newConfig);
+	qDebug() << "成功写入配置";
 
 	//关闭弹窗并返回 Accepted 状态到主界面
 	this->accept();
@@ -138,4 +139,6 @@ void SettingDialog::onResetClicked()
 		ui->portName->addItem("COM1");
 	}
 	ui->portName->setCurrentText("COM1");
+
+	qDebug() << "恢复出厂设置成功!";
 }

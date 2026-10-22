@@ -3,9 +3,13 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include "./StorageManager/StorageManager.h"
 
 int main(int argc, char *argv[])
 {
+    //全局日志拦截器
+    qInstallMessageHandler(StorageManager::messageHandler);
+
     QApplication app(argc, argv);
 
     //加载qss样式表

@@ -162,7 +162,7 @@ QFrame#frame_2 {
 	border-top: 1px solid #1E222E;
 }
 
-QPushButton#btnMuteAlarm, QPushButton#btnFreeze, QPushButton#btnBloodPress, QPushButton#btnMore {
+QPushButton#btnMuteAlarm, QPushButton#btnFreeze, QPushButton#btnBloodPress, QPushButton#btnRecording, QPushButton#btnMore {
 	background-color: #1A1D27;
 	color: #E0E3EA;
 	border: 1px solid #2E3344;
@@ -174,14 +174,14 @@ QPushButton#btnMuteAlarm, QPushButton#btnFreeze, QPushButton#btnBloodPress, QPus
 
 	/* 按钮悬停与按压态 */
 	QPushButton#btnMuteAlarm:hover, QPushButton#btnFreeze:hover,
-	QPushButton#btnBloodPress:hover, QPushButton#more:hover {
+	QPushButton#btnBloodPress:hover, QPushButton#btnRecording:hover, QPushButton#more:hover {
 		background-color: #282C3D;
 		border-color: #00E5FF;
 		color: #FFFFFF;
 	}
 
 	QPushButton#btnMuteAlarm:pressed, QPushButton#btnFreeze:pressed,
-	QPushButton#btnBloodPress:pressed, QPushButton#more:pressed {
+	QPushButton#btnBloodPress:pressed, QPushButton#btnRecording:pressed, QPushButton#more:pressed {
 		background-color: #12141D;
 		border-color: #00B0FF;
 	}
@@ -217,7 +217,7 @@ QGroupBox {
 /* =========================================================
    输入框、下拉框、微调框 (基础样式)
    ========================================================= */
-QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox, QDateEdit {
 	background-color: #12141C;
 	color: #00FF7F;
 	border: 1px solid #2E3344;
@@ -225,7 +225,7 @@ QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
 	padding: 3px 5px;
 }
 
-	QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
+	QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus, QDateEdit:focus {
 		border: 1px solid #00E5FF;
 	}
 
@@ -259,7 +259,7 @@ QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
 /* =========================================================
    QSpinBox / QDoubleSpinBox (微调框深度定制)
    ========================================================= */
-	QSpinBox::up-button, QDoubleSpinBox::up-button {
+	QSpinBox::up-button, QDoubleSpinBox::up-button, QDateEdit::up-button {
 		subcontrol-origin: border;
 		subcontrol-position: top right;
 		width: 20px;
@@ -269,7 +269,7 @@ QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
 		border-top-right-radius: 3px;
 	}
 
-	QSpinBox::down-button, QDoubleSpinBox::down-button {
+	QSpinBox::down-button, QDoubleSpinBox::down-button, QDateEdit::down-button {
 		subcontrol-origin: border;
 		subcontrol-position: bottom right;
 		width: 20px;
@@ -289,21 +289,61 @@ QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
 		}
 
 	/* 使用本地 SVG 资源作为上下箭头 */
-	QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
+	QSpinBox::up-arrow, QDoubleSpinBox::up-arrow, QDateEdit::up-arrow {
 		image: url(:/Resource/icon/up_arrow.svg);
 		width: 10px;
 		height: 10px;
 	}
 
-	QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+	QSpinBox::down-arrow, QDoubleSpinBox::down-arrow, QDateEdit::down-arrow {
 		image: url(:/Resource/icon/down_arrow.svg);
 		width: 10px;
 		height: 10px;
 	}
 
 /* =========================================================
-   弹窗里的保存和重置按钮
+   弹窗里的保存、重置和工具按钮
    ========================================================= */
+QToolButton {
+	background-color: #1A1D27;
+	color: #00E5FF;
+	border: 1px solid #2E3344;
+	border-radius: 3px;
+	padding: 2px 6px;
+	font-weight: bold;
+}
+
+	QToolButton:hover {
+		background-color: #282C3D;
+		border-color: #00E5FF;
+		color: #FFFFFF;
+	}
+
+	QToolButton:pressed {
+		background-color: #12141D;
+	}
+
+QPushButton#outPutLog, QPushButton#outPutData {
+	background-color: #1A1D27;
+	color: #E0E3EA;
+	border: 1px solid #2E3344;
+	border-radius: 4px;
+	padding: 5px 25px;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+	QPushButton#outPutLog:hover, QPushButton#outPutData:hover {
+		background-color: #282C3D;
+		border-color: #00E5FF;
+		color: #00FF7F; /* 悬停时高亮绿 */
+	}
+
+	QPushButton#outPutLog:pressed, QPushButton#outPutData:pressed {
+		background-color: #12141D;
+		border-color: #00B0FF;
+	}
+
 QPushButton#saveBtn, QPushButton#resetBtn {
 	background-color: #1A1D27;
 	color: #E0E3EA;

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "./ConfigManager/ConfigManager.h"
 #include "SettingDialog.h"
+#include "RecordingDialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -86,6 +87,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_audioThread, &QThread::finished, m_audioManager, &QObject::deleteLater);
 
     m_audioThread->start();
+
+    // =============================================
+    // 独立存储子线程（数据库和日志）
+    // =============================================
+    m_storageThread = new QThread(this);
+    m_storageManager = new StorageManager();
+    m_storageManager->moveToThread(m_storageThread);
+
+    connect(m_storageThread, &QThread::started, m_storageManager, &StorageManager::initStorage);
+    connect(m_storageThread, &QThread::finished, m_storageManager, &QObject::deleteLater);
+
+    //连接主线程的数据信号到存储线程的保存槽函数
+    connect(this, &MainWindow::signalSaveVitals, m_storageManager, &StorageManager::saveVitalSigns);
+
+    m_storageThread->start();
+
+    qDebug() << "初始化主界面成功!";
 }
 
 MainWindow::~MainWindow()
@@ -105,7 +123,14 @@ MainWindow::~MainWindow()
         m_audioThread->wait(); //阻塞主线程，等子线程完全结束
     }
 
+    if (m_storageThread && m_storageThread->isRunning()) {
+        m_storageThread->quit();//通知线程退出事件循环
+        m_storageThread->wait();//阻塞主线程，等子线程完全结束
+    }
+
     delete ui;
+
+    qDebug() << "主界面析构完成！";
 }
 
 void MainWindow::initCharts()
@@ -180,6 +205,8 @@ void MainWindow::on_btnBloodPress_clicked()
 
     //发送指令 0x01 给下位机，要求测血压
     emit sendNetCommand(0x01);
+
+    qDebug() << "开始测量血压";
 }
 
 //UI 数据提取逻辑
@@ -209,6 +236,8 @@ void MainWindow::onUiTimerTimeout()
             //启动/重置 5 秒清空定时器
             m_nibpClearTimer->start(5000);
         }
+
+        emit signalSaveVitals(tData);//每秒收到参数时，发信号给存储线程落盘
 
         // ---------------------------------
         // 各个体征的独立阈值报警判定
@@ -367,6 +396,8 @@ void MainWindow::onUiTimerTimeout()
 void MainWindow::onNibpClearTimeout()
 {
     ui->lblNIBP->setText("[NIBP 血压: -- / -- mmHg]");
+
+    qDebug() << "血压显示清空";
 }
 
 void MainWindow::on_btnMuteAlarm_clicked()
@@ -379,6 +410,8 @@ void MainWindow::on_btnMuteAlarm_clicked()
     QMetaObject::invokeMethod(m_audioManager, "stopAlarm", Qt::QueuedConnection);
 
     m_muteTimer->start(120000);//120秒后恢复
+
+    qDebug() << "开始静音，120 秒后恢复";
 }
 
 void MainWindow::on_btnFreeze_clicked()
@@ -391,24 +424,37 @@ void MainWindow::on_btnFreeze_clicked()
         //顶部状态栏联动提示已冻结
         ui->labelStatus->setText("状态：⏸️ 波形已冻结");
         ui->labelStatus->setStyleSheet("color: #00E5FF; font-weight: bold;");
+
+        qDebug() << "状态：波形已冻结";
     }
     else {
         ui->btnFreeze->setText("冻结波形");
         ui->btnFreeze->setStyleSheet("");//恢复默认 QSS
 
-        //接触冻结后，根据通信是否正常恢复对应状态
+        qDebug() << "解除冻结成功！";
+        //解除冻结后，根据通信是否正常恢复对应状态
         if (m_isCommTimeout) {
             ui->labelStatus->setText("状态：🟥 通信中断 / 离线");
             ui->labelStatus->setStyleSheet("color: #FF4D4F; font-weight: bold;");
+
+            qDebug() << "状态：通信中断 / 离线";
         }
         else
         {
             ui->labelStatus->setText("状态：🟩 实时推流");
             ui->labelStatus->setStyleSheet("");
+
+            qDebug() << "状态：实时推流";
         }
     }
 }
 
+void MainWindow::on_btnRecording_clicked()
+{
+    RecordingDialog record(this);
+
+    record.exec();
+}
 
 void MainWindow::on_btnMore_clicked()
 {
@@ -474,6 +520,7 @@ void MainWindow::onCommWatchdogTimeout()
     //如果没有被冻结，才展示断开警告
     if (!m_isFrozen) {
         ui->labelStatus->setText("状态：🟥 通信中断 / 离线");
+        qDebug() << "状态：通信中断 / 离线";
         ui->labelStatus->setStyleSheet("color: #FF4D4F; font-weight: bold;");
     }
 }
