@@ -61,7 +61,7 @@ public:
 	void loadConfigFromIni();
 
 	//获取当前配置副本供界面显示
-	StationConfig getCongfig() const;
+	StationConfig getConfig() const;
 	//界面修改后，调用此函数保存并写入 ini
 	void saveConfig(const StationConfig& newConfig);
 

@@ -36,7 +36,7 @@ SettingDialog::~SettingDialog()
 void SettingDialog::loadConfigToUI()
 {
 	//获取当前配置
-	StationConfig config = ConfigManager::instance()->getCongfig();
+	StationConfig config = ConfigManager::instance()->getConfig();
 
 	//患者信息
 	ui->personName->setText(config.person.name);
@@ -73,7 +73,7 @@ void SettingDialog::loadConfigToUI()
 
 void SettingDialog::onSaveClicked()
 {
-	StationConfig newConfig = ConfigManager::instance()->getCongfig();
+	StationConfig newConfig = ConfigManager::instance()->getConfig();
 
 
 	//保存配置信息

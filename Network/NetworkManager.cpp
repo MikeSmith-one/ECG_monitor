@@ -26,7 +26,7 @@ void NetworkManager::startConnection()
 	}
 
 	//从配置管理器获取最新配置
-	StationConfig config = ConfigManager::instance()->getCongfig();
+	StationConfig config = ConfigManager::instance()->getConfig();
 	m_serialPort->setPortName(config.PortName);
 	m_serialPort->setBaudRate(config.BaudRate);
 	m_serialPort->setDataBits(QSerialPort::Data8);

@@ -212,7 +212,7 @@ void MainWindow::on_btnBloodPress_clicked()
 //UI 数据提取逻辑
 void MainWindow::onUiTimerTimeout()
 {
-    StationConfig config = ConfigManager::instance()->getCongfig();
+    StationConfig config = ConfigManager::instance()->getConfig();
     bool currentIsAlarming = false;//标记本周期是否出发了警报
     bool currentIsFlatline = false;//标记本周期是否脱落/归零
     bool hasRWave = false;//标记本周期是否有心跳
@@ -462,7 +462,7 @@ void MainWindow::on_btnMore_clicked()
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        StationConfig latestConfig = ConfigManager::instance()->getCongfig();
+        StationConfig latestConfig = ConfigManager::instance()->getConfig();
 
         //更新顶部状态栏的病人信息
         ui->labelName->setText("姓名: " + latestConfig.person.name);

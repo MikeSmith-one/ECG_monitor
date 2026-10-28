@@ -89,7 +89,7 @@ void StorageManager::saveVitalSigns(const TablesData& data)
 {
     if (!m_db.isOpen()) return;
 
-    StationConfig config = ConfigManager::instance()->getCongfig();
+    StationConfig config = ConfigManager::instance()->getConfig();
 
     QSqlQuery query(m_db);
     query.prepare("INSERT INTO VitalSigns (bed_no, patient_name, hr, spo2, resp, temp, sys, dia) "

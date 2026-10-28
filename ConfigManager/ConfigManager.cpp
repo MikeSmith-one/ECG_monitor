@@ -86,7 +86,7 @@ void ConfigManager::loadConfigFromIni()
 	m_config.person.gender = settings.value("Gender", "男").toString();
 
 	//立即回写，确保文件中有这些字段
-	settings.setValue("BendNo", m_config.person.benNo);
+	settings.setValue("BedNo", m_config.person.benNo);
 	settings.setValue("Name", m_config.person.name);
 	settings.setValue("Gender", m_config.person.gender);
 	settings.endGroup();
@@ -138,7 +138,7 @@ void ConfigManager::loadConfigFromIni()
 // =====================================
 // 供界面调用配置的接口
 // =====================================
-StationConfig ConfigManager::getCongfig() const
+StationConfig ConfigManager::getConfig() const
 {
 	QReadLocker locker(&m_lock);
 	return m_config;
